@@ -1,0 +1,2781 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "OTC Forentend API",
+        "version": "2.0.0"
+    },
+    "servers": [
+        {
+            "url": "{schema}://192.168.10.195:8080",
+            "description": "OpenApi parameters",
+            "variables": {
+                "schema": {
+                    "enum": [
+                        "https",
+                        "http"
+                    ],
+                    "default": "http"
+                }
+            }
+        }
+    ],
+    "paths": {
+        "/otc/google2fa/bind": {
+            "get": {
+                "tags": [
+                    "otc-Google2fa"
+                ],
+                "summary": "生成秘钥和二维码链接",
+                "operationId": "showBindFormGoogle2fa",
+                "responses": {
+                    "200": {
+                        "description": "成功"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "otc-Google2fa"
+                ],
+                "summary": "谷歌二次认证绑定",
+                "operationId": "bindGoogle2fa",
+                "parameters": [
+                    {
+                        "name": "secret",
+                        "in": "query",
+                        "description": "秘钥",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "code",
+                        "in": "query",
+                        "description": "验证码",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "成功"
+                    }
+                }
+            }
+        },
+        "/otc/google2fa/unbind": {
+            "post": {
+                "tags": [
+                    "otc-Google2fa"
+                ],
+                "summary": "解除谷歌二次验证",
+                "operationId": "unbindGoogle2fa",
+                "parameters": [
+                    {
+                        "name": "code",
+                        "in": "query",
+                        "description": "验证码",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "成功"
+                    }
+                }
+            }
+        },
+        "/otc/country": {
+            "get": {
+                "tags": [
+                    "otc-common"
+                ],
+                "summary": "国家列表",
+                "operationId": "Country",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "example": {
+                                    "code": 200,
+                                    "msg": "成功",
+                                    "data": {
+                                        "data": [
+                                            {
+                                                "code": "AO",
+                                                "areaCode": 244,
+                                                "nameEn": "Angola",
+                                                "nameZh-CN": "安哥拉",
+                                                "nameZh-HK": "安哥拉",
+                                                "language": ""
+                                            }
+                                        ],
+                                        "total": 1
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "成功"
+                    }
+                }
+            }
+        },
+        "/otc/currency": {
+            "get": {
+                "tags": [
+                    "otc-common"
+                ],
+                "summary": "货币列表",
+                "operationId": "Currency",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "example": {
+                                    "code": 200,
+                                    "msg": "成功",
+                                    "data": {
+                                        "data": [
+                                            {
+                                                "code": "AED",
+                                                "nameEn": "United Arab Emirates Dirham",
+                                                "nameZh-CN": "阿联酋迪拉姆",
+                                                "nameZh-HK": "阿聯酋迪拉姆"
+                                            },
+                                            {
+                                                "code": "AFN",
+                                                "nameEn": "Afghan Afghani",
+                                                "nameZh-CN": "阿富汗尼",
+                                                "nameZh-HK": "阿富汗尼"
+                                            },
+                                            {
+                                                "code": "ALL",
+                                                "nameEn": "Albania Lek",
+                                                "nameZh-CN": "阿尔巴尼列克",
+                                                "nameZh-HK": "阿爾巴尼列克"
+                                            }
+                                        ],
+                                        "total": 3
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "成功"
+                    }
+                }
+            }
+        },
+        "otc/config/{configKey}": {
+            "get": {
+                "tags": [
+                    "otc-common"
+                ],
+                "summary": "系统配置获取",
+                "operationId": "otcconfig",
+                "parameters": [
+                    {
+                        "name": "configKey",
+                        "in": "query",
+                        "description": "OTC配置key:all=全部,counterFee=柜台手续费",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "example": {
+                                    "code": 200,
+                                    "data": {
+                                        "info": {
+                                            "key": "counter_fee",
+                                            "type": 1,
+                                            "value": "0.7",
+                                            "name": "柜台手续费",
+                                            "description": "比如手续费 0.7% ，购买 1 BTC 后，实际到账 0.993 BTC 。若是出售，则需要扣除账户 1.007 BTC 的可用余额。",
+                                            "rules": "required|numeric|between:0,100",
+                                            "weight": 9,
+                                            "unit": "%",
+                                            "options": null
+                                        }
+                                    },
+                                    "msg": "请求成功"
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "成功"
+                    }
+                }
+            }
+        },
+        "/otc/counter": {
+            "get": {
+                "tags": [
+                    "otc-counter"
+                ],
+                "summary": "OTC广告列表",
+                "operationId": "Counter",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "当前页，默认1",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        }
+                    },
+                    {
+                        "name": "pageSize",
+                        "in": "query",
+                        "description": "当前页大小，默认10",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        }
+                    },
+                    {
+                        "name": "sort",
+                        "in": "query",
+                        "description": "排序字段，默认id",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "order",
+                        "in": "query",
+                        "description": "排列顺序，默认desc",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "type",
+                        "in": "query",
+                        "description": "类型:1=在线购买,2=在线出售",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32",
+                            "enum": [
+                                "1",
+                                "2"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "userId",
+                        "in": "query",
+                        "description": "用户id",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "example": {
+                                    "code": 200,
+                                    "msg": "成功",
+                                    "data": {
+                                        "data": [
+                                            {
+                                                "id": 3,
+                                                "userId": 950397,
+                                                "coin": "BTC",
+                                                "status": 1,
+                                                "type": 1,
+                                                "countryCode": "CN",
+                                                "currencyCode": "CNY",
+                                                "paymentProvider": 3,
+                                                "price": "24286.83",
+                                                "margin": "5.00",
+                                                "minPrice": 0,
+                                                "minAmount": 1000,
+                                                "maxAmount": 50000,
+                                                "paymentWindowMinutes": 30,
+                                                "message": "13868057574",
+                                                "onlyTradeCardAuth": 0,
+                                                "onlyTradeSelfTrust": 0,
+                                                "createTime": "1545974722000",
+                                                "updateTime": "1545974722000"
+                                            }
+                                        ],
+                                        "total": 1
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "成功"
+                    }
+                }
+            }
+        },
+        "/otc/counter/create": {
+            "post": {
+                "tags": [
+                    "otc-counter"
+                ],
+                "summary": "发布OTC广告",
+                "operationId": "createCounters",
+                "parameters": [
+                    {
+                        "name": "coin",
+                        "in": "query",
+                        "description": "币种:BTC=比特币,LTC=莱特币",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "type",
+                        "in": "query",
+                        "description": "类型:1=在线购买,2=在线出售",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "enum": [
+                                "1",
+                                "2"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "countryCode",
+                        "in": "query",
+                        "description": "所在地-请选择你要发布广告的国家:如CN",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "currencyCode",
+                        "in": "query",
+                        "description": "货币:如CNY",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "margin",
+                        "in": "query",
+                        "description": "溢价:如1.0",
+                        "required": true,
+                        "schema": {
+                            "type": "double"
+                        }
+                    },
+                    {
+                        "name": "price",
+                        "in": "query",
+                        "description": "价格-基于溢价比例得出的报价，10分钟更新一次",
+                        "required": true,
+                        "schema": {
+                            "type": "double"
+                        }
+                    },
+                    {
+                        "name": "minPrice",
+                        "in": "query",
+                        "description": "最低价",
+                        "required": false,
+                        "schema": {
+                            "type": "double"
+                        }
+                    },
+                    {
+                        "name": "maxPrice",
+                        "in": "query",
+                        "description": "最高价",
+                        "required": false,
+                        "schema": {
+                            "type": "double"
+                        }
+                    },
+                    {
+                        "name": "minAmount",
+                        "in": "query",
+                        "description": "最小限额-一次交易的最低的交易限制",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        }
+                    },
+                    {
+                        "name": "maxAmount",
+                        "in": "query",
+                        "description": "最大限额-一次交易中的最大交易限制，您的钱包余额也会影响最大量的设置",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        }
+                    },
+                    {
+                        "name": "paymentWindowMinutes",
+                        "in": "query",
+                        "description": "过期时间（分钟）",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        }
+                    },
+                    {
+                        "name": "paymentProvider",
+                        "in": "query",
+                        "description": "收款方式:1=现金存款,2=银行转账,3=支付宝,4=微信支付,5=iTunes礼品卡,6=Paytm,7=其他",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32",
+                            "enum": [
+                                "1",
+                                "2",
+                                "3",
+                                "4",
+                                "5",
+                                "6",
+                                "7"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "onlyTradeCardAuth",
+                        "in": "query",
+                        "description": "仅限实名认证的交易者:0=否,1=是",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32",
+                            "enum": [
+                                "0",
+                                "1"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "onlyTradeSelfTrust",
+                        "in": "query",
+                        "description": "仅限受信任的交易者:0=否,1=是",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32",
+                            "enum": [
+                                "0",
+                                "1"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "message",
+                        "in": "query",
+                        "description": "广告留言",
+                        "required": false,
+                        "schema": {
+                            "type": "text"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "example": {
+                                    "code": 200,
+                                    "msg": "提交成功",
+                                    "data": []
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "成功"
+                    }
+                }
+            }
+        },
+        "/otc/counter/edit": {
+            "post": {
+                "tags": [
+                    "otc-counter"
+                ],
+                "summary": "编辑OTC广告",
+                "operationId": "editCounters",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "query",
+                        "description": "柜台id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        }
+                    },
+                    {
+                        "name": "countryCode",
+                        "in": "query",
+                        "description": "所在地-请选择你要发布广告的国家:如CN",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "currencyCode",
+                        "in": "query",
+                        "description": "货币:如CNY",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "margin",
+                        "in": "query",
+                        "description": "溢价:如1.0",
+                        "required": true,
+                        "schema": {
+                            "type": "double"
+                        }
+                    },
+                    {
+                        "name": "price",
+                        "in": "query",
+                        "description": "价格-基于溢价比例得出的报价，10分钟更新一次",
+                        "required": true,
+                        "schema": {
+                            "type": "double"
+                        }
+                    },
+                    {
+                        "name": "minPrice",
+                        "in": "query",
+                        "description": "最低价",
+                        "required": false,
+                        "schema": {
+                            "type": "double"
+                        }
+                    },
+                    {
+                        "name": "maxPrice",
+                        "in": "query",
+                        "description": "最高价",
+                        "required": false,
+                        "schema": {
+                            "type": "double"
+                        }
+                    },
+                    {
+                        "name": "minAmount",
+                        "in": "query",
+                        "description": "最小限额-一次交易的最低的交易限制",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        }
+                    },
+                    {
+                        "name": "maxAmount",
+                        "in": "query",
+                        "description": "最大限额-一次交易中的最大交易限制，您的钱包余额也会影响最大量的设置",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        }
+                    },
+                    {
+                        "name": "paymentWindowMinutes",
+                        "in": "query",
+                        "description": "过期时间（分钟）",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        }
+                    },
+                    {
+                        "name": "paymentProvider",
+                        "in": "query",
+                        "description": "收款方式:1=现金存款,2=银行转账,3=支付宝,4=微信支付,5=iTunes礼品卡,6=Paytm,7=其他",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32",
+                            "enum": [
+                                "1",
+                                "2",
+                                "3",
+                                "4",
+                                "5",
+                                "6",
+                                "7"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "onlyTradeCardAuth",
+                        "in": "query",
+                        "description": "仅限实名认证的交易者:0=否,1=是",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32",
+                            "enum": [
+                                "0",
+                                "1"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "onlyTradeSelfTrust",
+                        "in": "query",
+                        "description": "仅限受信任的交易者:0=否,1=是",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32",
+                            "enum": [
+                                "0",
+                                "1"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "message",
+                        "in": "query",
+                        "description": "广告留言",
+                        "required": false,
+                        "schema": {
+                            "type": "text"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "example": {
+                                    "code": 200,
+                                    "msg": "保存成功",
+                                    "data": []
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "成功"
+                    }
+                }
+            }
+        },
+        "/otc/counter/list": {
+            "get": {
+                "tags": [
+                    "otc-counter"
+                ],
+                "summary": "我的广告",
+                "operationId": "listCounter",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "当前页，默认1",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        }
+                    },
+                    {
+                        "name": "pageSize",
+                        "in": "query",
+                        "description": "当前页大小，默认10",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        }
+                    },
+                    {
+                        "name": "sort",
+                        "in": "query",
+                        "description": "排序字段，默认id",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "order",
+                        "in": "query",
+                        "description": "排列顺序，默认desc",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "type",
+                        "in": "query",
+                        "description": "类型:1=在线购买,2=在线出售",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "enum": [
+                                "1",
+                                "2"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "status",
+                        "in": "query",
+                        "description": "状态:1=进行中的广告,2=已下架的广告",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32",
+                            "enum": [
+                                "1",
+                                "2"
+                            ]
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "example": {
+                                    "code": 200,
+                                    "msg": "成功",
+                                    "data": {
+                                        "data": [
+                                            {
+                                                "id": 3,
+                                                "userId": 950397,
+                                                "coin": 1,
+                                                "status": 1,
+                                                "type": 1,
+                                                "countryCode": "CN",
+                                                "currencyCode": "CNY",
+                                                "paymentProvider": 3,
+                                                "price": "24286.83",
+                                                "margin": "5.00",
+                                                "minPrice": 0,
+                                                "minAmount": 1000,
+                                                "maxAmount": 50000,
+                                                "paymentWindowMinutes": 30,
+                                                "message": "13868057574",
+                                                "createTime": "1545974722000",
+                                                "updateTime": "1545974722000"
+                                            }
+                                        ],
+                                        "total": 1
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "成功"
+                    }
+                }
+            }
+        },
+        "/otc/counter/closed/{id}": {
+            "post": {
+                "tags": [
+                    "otc-counter"
+                ],
+                "summary": "关闭广告",
+                "operationId": "closedCounters",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "query",
+                        "description": "柜台id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "example": {
+                                    "code": 200,
+                                    "msg": "操作成功",
+                                    "data": []
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "成功"
+                    }
+                }
+            }
+        },
+        "/otc/counter/open/{id}": {
+            "post": {
+                "tags": [
+                    "otc-counter"
+                ],
+                "summary": "开放广告",
+                "operationId": "openCounters",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "query",
+                        "description": "柜台id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "example": {
+                                    "code": 200,
+                                    "msg": "操作成功",
+                                    "data": []
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "成功"
+                    }
+                }
+            }
+        },
+        "/otc/counter/{id}": {
+            "get": {
+                "tags": [
+                    "otc-counter"
+                ],
+                "summary": "广告详情",
+                "operationId": "showCounters",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "query",
+                        "description": "柜台id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "example": {
+                                    "code": 200,
+                                    "msg": "操作成功",
+                                    "data": {
+                                        "info": {
+                                            "id": 3,
+                                            "userId": 950397,
+                                            "coin": 1,
+                                            "status": 1,
+                                            "type": 1,
+                                            "countryCode": "CN",
+                                            "currencyCode": "CNY",
+                                            "paymentProvider": 3,
+                                            "price": "24286.83",
+                                            "margin": "5.00",
+                                            "minPrice": 0,
+                                            "minAmount": 1000,
+                                            "maxAmount": 50000,
+                                            "paymentWindowMinutes": 30,
+                                            "message": "13868057574",
+                                            "createTime": "1545974722000",
+                                            "updateTime": "1545974722000"
+                                        },
+                                        "country": [
+                                            {
+                                                "code": "AO",
+                                                "areaCode": 244,
+                                                "nameEn": "Angola",
+                                                "nameZh-CN": "安哥拉",
+                                                "nameZh-HK": "安哥拉",
+                                                "language": ""
+                                            },
+                                            {
+                                                "code": "AF",
+                                                "areaCode": 93,
+                                                "nameEn": "Afghanistan",
+                                                "nameZh-CN": "阿富汗",
+                                                "nameZh-HK": "阿富汗",
+                                                "language": ""
+                                            },
+                                            {
+                                                "code": "AL",
+                                                "areaCode": 355,
+                                                "nameEn": "Albania",
+                                                "nameZh-CN": "阿尔巴尼亚",
+                                                "nameZh-HK": "阿爾巴尼亞",
+                                                "language": ""
+                                            }
+                                        ],
+                                        "currency": [
+                                            {
+                                                "code": "AED",
+                                                "nameEn": "United Arab Emirates Dirham",
+                                                "nameZh-CN": "阿联酋迪拉姆",
+                                                "nameZh-HK": "阿聯酋迪拉姆"
+                                            },
+                                            {
+                                                "code": "AFN",
+                                                "nameEn": "Afghan Afghani",
+                                                "nameZh-CN": "阿富汗尼",
+                                                "nameZh-HK": "阿富汗尼"
+                                            },
+                                            {
+                                                "code": "ALL",
+                                                "nameEn": "Albania Lek",
+                                                "nameZh-CN": "阿尔巴尼列克",
+                                                "nameZh-HK": "阿爾巴尼列克"
+                                            }
+                                        ]
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "成功"
+                    }
+                }
+            }
+        },
+        "/otc/counter/paymentProvider": {
+            "get": {
+                "tags": [
+                    "otc-counter"
+                ],
+                "summary": "广告付款方式",
+                "operationId": "paymentProviderCounters",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "example": {
+                                    "code": 200,
+                                    "msg": "操作成功",
+                                    "data": {
+                                        "info": {
+                                            "1": "现金存款",
+                                            "2": "银行转账",
+                                            "3": "支付宝",
+                                            "4": "微信支付",
+                                            "5": "iTunes礼品卡",
+                                            "6": "Paytm",
+                                            "7": "其他"
+                                        }
+                                    },
+                                    "success": true
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "成功"
+                    }
+                }
+            }
+        },
+        "/otc/marketPrices/{coin}": {
+            "get": {
+                "tags": [
+                    "otc-counter"
+                ],
+                "summary": "某币种市场价最新价USD",
+                "operationId": "marketPricesCounters",
+                "parameters": [
+                    {
+                        "name": "coin",
+                        "in": "query",
+                        "description": "币种:BTC=比特币,LTC=莱特币",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "example": {
+                                    "code": 200,
+                                    "msg": "操作成功",
+                                    "data": {
+                                        "info": {
+                                            "coinName": "BTC",
+                                            "currencyCode": "USD",
+                                            "price": "3558.51"
+                                        }
+                                    },
+                                    "success": true
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "成功"
+                    }
+                }
+            }
+        },
+        "/otc/exchangeRates/{currencyCode}": {
+            "get": {
+                "tags": [
+                    "otc-counter"
+                ],
+                "summary": "获取某种货币兑美元汇率",
+                "operationId": "exchangeRatesCounters",
+                "parameters": [
+                    {
+                        "name": "currencyCode",
+                        "in": "query",
+                        "description": "货币:如CNY",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "example": {
+                                    "code": 200,
+                                    "msg": "操作成功",
+                                    "data": {
+                                        "info": {
+                                            "coinExchange": "USD2CNY",
+                                            "currencyCode": "CNY",
+                                            "rates": "6.500000"
+                                        }
+                                    },
+                                    "success": true
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "成功"
+                    }
+                }
+            }
+        },
+        "/otc/counter/coinLists": {
+            "get": {
+                "tags": [
+                    "otc-counter"
+                ],
+                "summary": "广告发布币种选择列表",
+                "operationId": "coinListsCounters",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "example": {
+                                    "code": 200,
+                                    "data": {
+                                        "data": [
+                                            {
+                                                "id": 1,
+                                                "coinName": "BTC"
+                                            },
+                                            {
+                                                "id": 2,
+                                                "coinName": "LTC"
+                                            }
+                                        ],
+                                        "total": 2
+                                    },
+                                    "msg": "请求成功"
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "成功"
+                    }
+                }
+            }
+        },
+        "/otc/buy": {
+            "get": {
+                "tags": [
+                    "otc-buySell"
+                ],
+                "summary": "购买列表",
+                "operationId": "buyOtc",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "当前页，默认1",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        }
+                    },
+                    {
+                        "name": "pageSize",
+                        "in": "query",
+                        "description": "当前页大小，默认10",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        }
+                    },
+                    {
+                        "name": "sort",
+                        "in": "query",
+                        "description": "排序字段，默认id",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "order",
+                        "in": "query",
+                        "description": "排列顺序，默认desc",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "coin",
+                        "in": "query",
+                        "description": "币种如:BTC",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "countryCode",
+                        "in": "query",
+                        "description": "国家如:CN",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "currencyCode",
+                        "in": "query",
+                        "description": "货币如:CNY",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "paymentProvider",
+                        "in": "query",
+                        "description": "收款方式:1=现金存款,2=银行转账,3=支付宝,4=微信支付,5=iTunes礼品卡,6=Paytm,7=其他",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        }
+                    },
+                    {
+                        "name": "nickname",
+                        "in": "query",
+                        "description": "昵称如:小白",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "example": {
+                                    "code": 200,
+                                    "msg": "操作成功",
+                                    "data": {
+                                        "data": [
+                                            {
+                                                "id": 14,
+                                                "userId": 11,
+                                                "coin": "BTC",
+                                                "status": 1,
+                                                "type": 1,
+                                                "countryCode": "CN",
+                                                "currencyCode": "CNY",
+                                                "paymentProvider": 2,
+                                                "price": "24874.34",
+                                                "margin": "7.54",
+                                                "minPrice": "0.00",
+                                                "maxPrice": "0.00",
+                                                "minAmount": 50,
+                                                "maxAmount": 11111,
+                                                "paymentWindowMinutes": 30,
+                                                "message": "购买测试2",
+                                                "onlyTradeCardAuth": 0,
+                                                "onlyTradeSelfTrust": 0,
+                                                "createTime": 2147483647,
+                                                "updateTime": 2147483647,
+                                                "counterFee": "0.7"
+                                            }
+                                        ],
+                                        "total": 1
+                                    },
+                                    "success": true
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "成功"
+                    }
+                }
+            }
+        },
+        "/otc/sell": {
+            "get": {
+                "tags": [
+                    "otc-buySell"
+                ],
+                "summary": "出售列表",
+                "operationId": "sellOtc",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "当前页，默认1",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        }
+                    },
+                    {
+                        "name": "pageSize",
+                        "in": "query",
+                        "description": "当前页大小，默认10",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        }
+                    },
+                    {
+                        "name": "sort",
+                        "in": "query",
+                        "description": "排序字段，默认id",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "order",
+                        "in": "query",
+                        "description": "排列顺序，默认desc",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "coin",
+                        "in": "query",
+                        "description": "币种如:BTC",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "countryCode",
+                        "in": "query",
+                        "description": "国家如:CN",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "currencyCode",
+                        "in": "query",
+                        "description": "货币如:CNY",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "paymentProvider",
+                        "in": "query",
+                        "description": "收款方式:1=现金存款,2=银行转账,3=支付宝,4=微信支付,5=iTunes礼品卡,6=Paytm,7=其他",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        }
+                    },
+                    {
+                        "name": "nickname",
+                        "in": "query",
+                        "description": "昵称如:小白",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "example": {
+                                    "code": 200,
+                                    "msg": "操作成功",
+                                    "data": {
+                                        "data": [
+                                            {
+                                                "id": 6,
+                                                "userId": 11,
+                                                "coin": "BTC",
+                                                "status": 1,
+                                                "type": 2,
+                                                "countryCode": "CN",
+                                                "currencyCode": "CNY",
+                                                "paymentProvider": 2,
+                                                "price": "0.00",
+                                                "margin": "8.10",
+                                                "minPrice": "0.00",
+                                                "maxPrice": "0.00",
+                                                "minAmount": 50,
+                                                "maxAmount": 100000,
+                                                "paymentWindowMinutes": 0,
+                                                "message": "留言内容1",
+                                                "onlyTradeCardAuth": 0,
+                                                "onlyTradeSelfTrust": 0,
+                                                "createTime": 2147483647,
+                                                "updateTime": 2147483647,
+                                                "counterFee": "0.7"
+                                            }
+                                        ],
+                                        "total": 1
+                                    },
+                                    "success": true
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "成功"
+                    }
+                }
+            }
+        },
+        "/otc/buy/{id}": {
+            "get": {
+                "tags": [
+                    "otc-buySell"
+                ],
+                "summary": "买单详情",
+                "operationId": "buybuySell",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "query",
+                        "description": "广告id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "example": {
+                                    "code": 200,
+                                    "data": {
+                                        "info": {
+                                            "id": 5,
+                                            "userId": 11,
+                                            "coin": "BTC",
+                                            "status": 1,
+                                            "type": 2,
+                                            "countryCode": "CN",
+                                            "currencyCode": "CNY",
+                                            "paymentProvider": 2,
+                                            "price": "0.00",
+                                            "margin": "8.10",
+                                            "minPrice": "0.00",
+                                            "maxPrice": "0.00",
+                                            "minAmount": 50,
+                                            "maxAmount": 100000,
+                                            "paymentWindowMinutes": 0,
+                                            "message": "留言内容1",
+                                            "onlyTradeCardAuth": 0,
+                                            "onlyTradeSelfTrust": 0,
+                                            "createTime": 2147483647,
+                                            "updateTime": 2147483647,
+                                            "counterFee": "0.7"
+                                        },
+                                        "user": {
+                                            "id": 11,
+                                            "nickname": "B53C5A76",
+                                            "image": "\\/static\\/images\\/userhead\\/u004.jpg",
+                                            "buyTradeCount": 0,
+                                            "sellTradeCount": 0,
+                                            "positiveFeedbackCount": 0,
+                                            "neutralFeedbackCount": 0,
+                                            "negativeFeedbackCount": 0,
+                                            "tradeCount": 12,
+                                            "positiveFeedbackRates": 81
+                                        }
+                                    },
+                                    "msg": "请求成功"
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "成功"
+                    }
+                }
+            }
+        },
+        "/otc/sell/{id}": {
+            "get": {
+                "tags": [
+                    "otc-buySell"
+                ],
+                "summary": "卖单详情",
+                "operationId": "sellbuySell",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "query",
+                        "description": "广告id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "example": {
+                                    "code": 200,
+                                    "data": {
+                                        "info": {
+                                            "id": 5,
+                                            "userId": 11,
+                                            "coin": "BTC",
+                                            "status": 1,
+                                            "type": 2,
+                                            "countryCode": "CN",
+                                            "currencyCode": "CNY",
+                                            "paymentProvider": 2,
+                                            "price": "0.00",
+                                            "margin": "8.10",
+                                            "minPrice": "0.00",
+                                            "maxPrice": "0.00",
+                                            "minAmount": 50,
+                                            "maxAmount": 100000,
+                                            "paymentWindowMinutes": 0,
+                                            "message": "留言内容1",
+                                            "onlyTradeCardAuth": 0,
+                                            "onlyTradeSelfTrust": 0,
+                                            "createTime": 2147483647,
+                                            "updateTime": 2147483647,
+                                            "counterFee": "0.7"
+                                        },
+                                        "user": {
+                                            "id": 11,
+                                            "nickname": "B53C5A76",
+                                            "image": "\\/static\\/images\\/userhead\\/u004.jpg",
+                                            "buyTradeCount": 0,
+                                            "sellTradeCount": 0,
+                                            "positiveFeedbackCount": 0,
+                                            "neutralFeedbackCount": 0,
+                                            "negativeFeedbackCount": 0,
+                                            "tradeCount": 12,
+                                            "positiveFeedbackRates": 81
+                                        }
+                                    },
+                                    "msg": "请求成功"
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "成功"
+                    }
+                }
+            }
+        },
+        "/otc/user/{userId}": {
+            "get": {
+                "tags": [
+                    "otc-common"
+                ],
+                "summary": "OTC用户详情",
+                "operationId": "userDetailcommon",
+                "parameters": [
+                    {
+                        "name": "userId",
+                        "in": "query",
+                        "description": "用户id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "example": {
+                                    "code": 200,
+                                    "data": {
+                                        "info": {
+                                            "id": 11,
+                                            "nickname": "B53C5A76",
+                                            "createTime": 2147483647,
+                                            "image": "\\/static\\/images\\/userhead\\/u004.jpg",
+                                            "idCardAuth": 1,
+                                            "email": "",
+                                            "phone": "176****5466",
+                                            "trustCount": 0,
+                                            "buyTradeCount": 0,
+                                            "sellTradeCount": 0,
+                                            "positiveFeedbackCount": 0,
+                                            "neutralFeedbackCount": 0,
+                                            "negativeFeedbackCount": 0,
+                                            "tradeCount": 12,
+                                            "positiveFeedbackRates": 81,
+                                            "isEmailVerified": 0,
+                                            "isPhoneVerified": 1
+                                        }
+                                    },
+                                    "msg": "请求成功"
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "成功"
+                    }
+                }
+            }
+        },
+        "/otc/trustRelation/{userId}": {
+            "get": {
+                "tags": [
+                    "otc-common"
+                ],
+                "summary": "我与某人的信任关系",
+                "operationId": "trustRelationcommon",
+                "parameters": [
+                    {
+                        "name": "userId",
+                        "in": "query",
+                        "description": "用户id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "example": {
+                                    "code": 200,
+                                    "data": {
+                                        "info": {
+                                            "isTrust": 1,
+                                            "isBlack": 0
+                                        }
+                                    },
+                                    "msg": "请求成功"
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "成功"
+                    }
+                }
+            }
+        },
+        "/otc/blacklist/add/{userId}": {
+            "post": {
+                "tags": [
+                    "otc-ignore"
+                ],
+                "summary": "添加黑名单",
+                "operationId": "addIgnore",
+                "parameters": [
+                    {
+                        "name": "userId",
+                        "in": "query",
+                        "description": "用户id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "example": {
+                                    "code": 200,
+                                    "msg": "操作成功",
+                                    "data": []
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "成功"
+                    }
+                }
+            }
+        },
+        "/otc/blacklist/remove/{userId}": {
+            "post": {
+                "tags": [
+                    "otc-ignore"
+                ],
+                "summary": "移除黑名单",
+                "operationId": "removeIgnore",
+                "parameters": [
+                    {
+                        "name": "userId",
+                        "in": "query",
+                        "description": "用户id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "example": {
+                                    "code": 200,
+                                    "msg": "操作成功",
+                                    "data": []
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "成功"
+                    }
+                }
+            }
+        },
+        "/otc/blacklist/my": {
+            "get": {
+                "tags": [
+                    "otc-ignore"
+                ],
+                "summary": "我屏蔽的人",
+                "operationId": "myIgnore",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "当前页，默认1",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        }
+                    },
+                    {
+                        "name": "pageSize",
+                        "in": "query",
+                        "description": "当前页大小，默认10",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        }
+                    },
+                    {
+                        "name": "sort",
+                        "in": "query",
+                        "description": "排序字段，默认id",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "order",
+                        "in": "query",
+                        "description": "排列顺序，默认desc",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "example": {
+                                    "code": 200,
+                                    "msg": "成功",
+                                    "data": {
+                                        "data": [
+                                            {
+                                                "id": 3,
+                                                "fromUid": 950397,
+                                                "toUid": 950398,
+                                                "tradeCount": 3,
+                                                "createTime": "1545974722000",
+                                                "updateTime": "1545974722000"
+                                            }
+                                        ],
+                                        "total": 1
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "成功"
+                    }
+                }
+            }
+        },
+        "/otc/message/send": {
+            "post": {
+                "tags": [
+                    "otc-message"
+                ],
+                "summary": "发送消息",
+                "operationId": "sendMessage",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "query",
+                        "description": "消息id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        }
+                    },
+                    {
+                        "name": "messageText",
+                        "in": "query",
+                        "description": "文本消息",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "messageImage",
+                        "in": "query",
+                        "description": "图片消息",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "成功"
+                    }
+                }
+            }
+        },
+        "/otc/message/read/{messageId}": {
+            "post": {
+                "tags": [
+                    "otc-message"
+                ],
+                "summary": "标记消息为已读",
+                "operationId": "readMessage",
+                "parameters": [
+                    {
+                        "name": "messageId",
+                        "in": "query",
+                        "description": "消息id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "成功"
+                    }
+                }
+            }
+        },
+        "/otc/message/image/{messageId}": {
+            "post": {
+                "tags": [
+                    "otc-message"
+                ],
+                "summary": "显示消息内的图片",
+                "operationId": "imageMessage",
+                "parameters": [
+                    {
+                        "name": "messageId",
+                        "in": "query",
+                        "description": "消息id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "成功"
+                    }
+                }
+            }
+        },
+        "/otc/order/create": {
+            "post": {
+                "tags": [
+                    "otc-order"
+                ],
+                "summary": "创建订单",
+                "operationId": "createOrder",
+                "parameters": [
+                    {
+                        "name": "counterId",
+                        "in": "query",
+                        "description": "广告id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        }
+                    },
+                    {
+                        "name": "in",
+                        "in": "query",
+                        "description": "数量 OR 金额amount=金额（法币）,quantity=数量（数字币）",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "enum": [
+                                "amount",
+                                "quantity"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "amount",
+                        "in": "query",
+                        "description": "金额（法币）:in=amount时传递",
+                        "required": false,
+                        "schema": {
+                            "type": "double"
+                        }
+                    },
+                    {
+                        "name": "quantity",
+                        "in": "query",
+                        "description": "数量（数字币）:in=quantity时传递",
+                        "required": false,
+                        "schema": {
+                            "type": "double"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "example": {
+                                    "code": 200,
+                                    "msg": "成功",
+                                    "data": {
+                                        "info": {
+                                            "id": 7,
+                                            "counterId": 4,
+                                            "buyerId": 950398,
+                                            "sellerId": 950397,
+                                            "status": 3,
+                                            "price": "24286.83",
+                                            "amount": "20000.00",
+                                            "quantity": "0.82349158",
+                                            "fee": "0.00576444",
+                                            "buyerFeedback": 1,
+                                            "sellerFeedback": 1,
+                                            "expiresAt": "1545974722000",
+                                            "createTime": "1545974722000",
+                                            "updateTime": "1545974722000"
+                                        },
+                                        "messages": [
+                                            {
+                                                "id": 7,
+                                                "orderId": 401,
+                                                "fromUid": 950398,
+                                                "toUid": 950397,
+                                                "type": 1,
+                                                "isRead": 0,
+                                                "content": "hello",
+                                                "extra": "",
+                                                "createTime": "1545974722000",
+                                                "updateTime": "1545974722000"
+                                            }
+                                        ]
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "成功"
+                    }
+                }
+            }
+        },
+        "/otc/order/{orderId}": {
+            "get": {
+                "tags": [
+                    "otc-order"
+                ],
+                "summary": "订单详情",
+                "operationId": "showOrder",
+                "parameters": [
+                    {
+                        "name": "orderId",
+                        "in": "query",
+                        "description": "订单id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "example": {
+                                    "code": 200,
+                                    "msg": "成功",
+                                    "data": {
+                                        "info": {
+                                            "id": 7,
+                                            "counterId": 4,
+                                            "buyerId": 950398,
+                                            "sellerId": 950397,
+                                            "status": 3,
+                                            "price": "24286.83",
+                                            "amount": "20000.00",
+                                            "quantity": "0.82349158",
+                                            "fee": "0.00576444",
+                                            "buyerFeedback": 1,
+                                            "sellerFeedback": 1,
+                                            "expiresAt": "1545974722000",
+                                            "createTime": "1545974722000",
+                                            "updateTime": "1545974722000"
+                                        },
+                                        "messages": [
+                                            {
+                                                "id": 7,
+                                                "orderId": 401,
+                                                "fromUid": 950398,
+                                                "toUid": 950397,
+                                                "type": 1,
+                                                "isRead": 0,
+                                                "content": "hello",
+                                                "extra": "",
+                                                "createTime": "1545974722000",
+                                                "updateTime": "1545974722000"
+                                            }
+                                        ]
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "成功"
+                    }
+                }
+            }
+        },
+        "/otc/order": {
+            "get": {
+                "tags": [
+                    "otc-order"
+                ],
+                "summary": "订单列表",
+                "operationId": "listOrderOTC",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "当前页，默认1",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        }
+                    },
+                    {
+                        "name": "pageSize",
+                        "in": "query",
+                        "description": "当前页大小，默认10",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        }
+                    },
+                    {
+                        "name": "sort",
+                        "in": "query",
+                        "description": "排序字段，默认id",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "order",
+                        "in": "query",
+                        "description": "排列顺序，默认desc",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "type",
+                        "in": "query",
+                        "description": "类型:Processing=进行中的交易,Completed=已完成的交易",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "enum": [
+                                "Processing",
+                                "Completed"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "coin",
+                        "in": "query",
+                        "description": "币种:BTC=比特币,LTC=莱特币",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "成功"
+                    }
+                }
+            }
+        },
+        "/otc/order/repeal/{orderId}": {
+            "post": {
+                "tags": [
+                    "otc-order"
+                ],
+                "summary": "撤销订单",
+                "operationId": "repealOrder",
+                "parameters": [
+                    {
+                        "name": "orderId",
+                        "in": "query",
+                        "description": "订单id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "成功"
+                    }
+                }
+            }
+        },
+        "/otc/order/restart/{orderId}": {
+            "post": {
+                "tags": [
+                    "otc-order"
+                ],
+                "summary": "重启订单",
+                "operationId": "restartOrder",
+                "parameters": [
+                    {
+                        "name": "orderId",
+                        "in": "query",
+                        "description": "订单id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "成功"
+                    }
+                }
+            }
+        },
+        "/otc/order/payment/{orderId}": {
+            "post": {
+                "tags": [
+                    "otc-order"
+                ],
+                "summary": "已付款",
+                "operationId": "paymentOrder",
+                "parameters": [
+                    {
+                        "name": "orderId",
+                        "in": "query",
+                        "description": "订单id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "成功"
+                    }
+                }
+            }
+        },
+        "/otc/order/release/{orderId}": {
+            "post": {
+                "tags": [
+                    "otc-order"
+                ],
+                "summary": "释放托管",
+                "operationId": "releaseOrder",
+                "parameters": [
+                    {
+                        "name": "orderId",
+                        "in": "query",
+                        "description": "订单id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        }
+                    },
+                    {
+                        "name": "transactionPassword",
+                        "in": "query",
+                        "description": "交易密码",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "成功"
+                    }
+                }
+            }
+        },
+        "/otc/order/review/{orderId}": {
+            "post": {
+                "tags": [
+                    "otc-order"
+                ],
+                "summary": "评论订单",
+                "operationId": "reviewOrder",
+                "parameters": [
+                    {
+                        "name": "orderId",
+                        "in": "query",
+                        "description": "订单id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        }
+                    },
+                    {
+                        "name": "feedback",
+                        "in": "query",
+                        "description": "评价:1=好评,2=中评,3=差评",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32",
+                            "enum": [
+                                "1",
+                                "2",
+                                "3"
+                            ]
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "成功"
+                    }
+                }
+            }
+        },
+        "/otc/trust/add/{userId}": {
+            "post": {
+                "tags": [
+                    "otc-trust"
+                ],
+                "summary": "添加信任",
+                "operationId": "addTrust",
+                "parameters": [
+                    {
+                        "name": "userId",
+                        "in": "query",
+                        "description": "用户id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "成功"
+                    }
+                }
+            }
+        },
+        "/otc/trust/remove/{userId}": {
+            "post": {
+                "tags": [
+                    "otc-trust"
+                ],
+                "summary": "移除信任我的人",
+                "operationId": "removeTrust",
+                "parameters": [
+                    {
+                        "name": "userId",
+                        "in": "query",
+                        "description": "用户id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "成功"
+                    }
+                }
+            }
+        },
+        "/otc/trust/by": {
+            "get": {
+                "tags": [
+                    "otc-trust"
+                ],
+                "summary": "信任我的人",
+                "operationId": "byTrust",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "当前页，默认1",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        }
+                    },
+                    {
+                        "name": "pageSize",
+                        "in": "query",
+                        "description": "当前页大小，默认10",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        }
+                    },
+                    {
+                        "name": "sort",
+                        "in": "query",
+                        "description": "排序字段，默认id",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "order",
+                        "in": "query",
+                        "description": "排列顺序，默认desc",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "成功"
+                    }
+                }
+            }
+        },
+        "/otc/trust/my": {
+            "get": {
+                "tags": [
+                    "otc-trust"
+                ],
+                "summary": "我信任的人",
+                "operationId": "myTrust",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "当前页，默认1",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        }
+                    },
+                    {
+                        "name": "pageSize",
+                        "in": "query",
+                        "description": "当前页大小，默认10",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        }
+                    },
+                    {
+                        "name": "sort",
+                        "in": "query",
+                        "description": "排序字段，默认id",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "order",
+                        "in": "query",
+                        "description": "排列顺序，默认desc",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "成功"
+                    }
+                }
+            }
+        },
+        "/otc/wallet": {
+            "get": {
+                "tags": [
+                    "otc-wallet"
+                ],
+                "summary": "钱包余额",
+                "operationId": "Wallet",
+                "parameters": [
+                    {
+                        "name": "coin",
+                        "in": "query",
+                        "description": "币种名称如:BTC",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "enum": [
+                                "BTC",
+                                "LTC"
+                            ]
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "成功"
+                    }
+                }
+            }
+        },
+        "/otc/wallet/address": {
+            "get": {
+                "tags": [
+                    "otc-wallet"
+                ],
+                "summary": "钱包地址",
+                "operationId": "addressWallet",
+                "parameters": [
+                    {
+                        "name": "coin",
+                        "in": "query",
+                        "description": "币种名称如:BTC",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "enum": [
+                                "BTC",
+                                "LTC"
+                            ]
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "成功"
+                    }
+                }
+            }
+        },
+        "/otc/wallet/transactions": {
+            "get": {
+                "tags": [
+                    "otc-wallet"
+                ],
+                "summary": "交易记录",
+                "operationId": "transactionsWallet",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "当前页，默认1",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        }
+                    },
+                    {
+                        "name": "pageSize",
+                        "in": "query",
+                        "description": "当前页大小，默认10",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        }
+                    },
+                    {
+                        "name": "sort",
+                        "in": "query",
+                        "description": "排序字段，默认id",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "order",
+                        "in": "query",
+                        "description": "排列顺序，默认desc",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "type",
+                        "in": "query",
+                        "description": "类型:NetworkIn=网络转入,NetworkOut=网络转出,TradeIn=交易买入,TradeOut=交易卖出,PlatformIn=平台转入,PlatformOut=平台转出",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "enum": [
+                                "NetworkIn",
+                                "NetworkOut",
+                                "TradeIn",
+                                "TradeOut",
+                                "PlatformIn",
+                                "PlatformOut"
+                            ]
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "成功"
+                    }
+                }
+            }
+        },
+        "/otc/wallet/deposits": {
+            "get": {
+                "tags": [
+                    "otc-wallet"
+                ],
+                "summary": "取得所有未到账的存款列表",
+                "operationId": "depositsWallet",
+                "parameters": [
+                    {
+                        "name": "coin",
+                        "in": "query",
+                        "description": "币种名称如:BTC",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "enum": [
+                                "BTC",
+                                "LTC"
+                            ]
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "成功"
+                    }
+                }
+            }
+        },
+        "/otc/wallet/qrcode/{address}/{amount}": {
+            "get": {
+                "tags": [
+                    "otc-wallet"
+                ],
+                "summary": "钱包收款二维码图片",
+                "operationId": "qrcodeWallet",
+                "parameters": [
+                    {
+                        "name": "address",
+                        "in": "query",
+                        "description": "钱包地址",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "amount",
+                        "in": "query",
+                        "description": "数量",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "成功"
+                    }
+                }
+            }
+        },
+        "/otc/wallet/send": {
+            "post": {
+                "tags": [
+                    "otc-wallet"
+                ],
+                "summary": "发送数字货币",
+                "operationId": "sendWallet",
+                "parameters": [
+                    {
+                        "name": "address",
+                        "in": "query",
+                        "description": "钱包地址",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "amount",
+                        "in": "query",
+                        "description": "数量",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        }
+                    },
+                    {
+                        "name": "secondaryPassword",
+                        "in": "query",
+                        "description": "资金密码",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "remark",
+                        "in": "query",
+                        "description": "备注",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "成功"
+                    }
+                }
+            }
+        }
+    }
+}
