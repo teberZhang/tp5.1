@@ -26,4 +26,9 @@ return [
     // 应用结束
     'app_end'      => [],
     'my_action'    => ['\\app\\common\\behavior\\Test'],
+    // 任务失败统一回调,有四种定义方式
+    'queue_failed'=> [
+        // 数组形式，[ 'ClassName' , 'methodName']
+        ['application\\behavior\\MyQueueFailedLogger', 'logAllFailedQueues']
+    ],
 ];

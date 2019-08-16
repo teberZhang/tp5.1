@@ -20,7 +20,8 @@
         "topthink/framework": "5.1.*",
         "topthink/think-worker": "^2.0",
         "zircote/swagger-php": "^3.0",
-        "workerman/gateway-worker": "^3.0"
+        "workerman/gateway-worker": "^3.0",
+        "topthink/think-queue": "2.*"
     },
     "autoload": {
         "psr-4": {
